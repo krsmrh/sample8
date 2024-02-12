@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星座占い</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fffaf0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        select {
+            padding: 8px;
+            width: calc(100% - 120px);
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 50px;
+            background-color: #800000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+            top: 20px;
+            left: 60px;
+        }
+
+        button:hover {
+            background-color: #4b0000;
+        }
+
+        #result,
+        #luckycolor,
+        #ran-zen,
+        #ranking {
+            margin-top: 20px;
+        }
+
+        #result{
+            font-size: 22px;
+        }
+
+        #ranking {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-container">
+            <label for="text_input">お名前：</label>
+            <input type="text" id="text_input">
+        </div>
+        <div class="input-container">
+            <label for="cus-star">星座：</label>
+            <select id="cus-star">
+                <option selected hidden>選択してください</option>
+                <option>牡羊座</option>
+                <option>牡牛座</option>
+                <option>双子座</option>
+                <option>蟹座</option>
+                <option>獅子座</option>
+                <option>乙女座</option>
+                <option>天秤座</option>
+                <option>蠍座</option>
+                <option>射手座</option>
+                <option>山羊座</option>
+                <option>水瓶座</option>
+                <option>魚座</option>
+            </select>
+        </div>
+        <button onclick="start()" id="startButton">占う</button>
+        <br>
+        <div id="result"></div>
+        <div id="luckycolor"></div>
+        <br>
+        <div id="ran-zen"></div>
+        <p id="ranking"></p>
+    </div>
+
+    <script>
+        function start(){
+            if(document.getElementById("text_input").value === ""){
+                alert("名前を入力してください");
+            }
+            else if(document.getElementById("cus-star").value === "選択してください"){
+                alert("星座を選択してください");
+            }
+            else{
+                let i = 0, x, n, k, s, name, c, ran;
+                let answer = "";
+
+                let stars = ["牡羊座","牡牛座","双子座","蟹座","獅子座","乙女座","天秤座","蠍座","射手座","山羊座","水瓶座","魚座"]
+                let j = stars.length;
+                let newstars = []
+
+                while(stars.length > 0){
+                    n = stars.length
+                    k = Math.floor(Math.random()*n);
+
+                    newstars.push(stars[k]);
+                    stars.splice(k, 1);
+                }
+
+                while(i<j){
+                    x = newstars[i];
+                    if(i < 9){
+                        answer += i+1 +"　　　" + x + "<br>";
+                    }
+                    else{
+                        answer += i+1 +"　　 " + x + "<br>";
+                    }
+
+                    if(x == document.getElementById("cus-star").value){
+                        ran = i+1;
+                    }
+                    i++;
+                }
+                
+                s = document.getElementById("cus-star").value;
+                name = document.getElementById("text_input").value;
+
+                let lucky_c = ["赤","青","黄","緑"]
+                let y = lucky_c[Math.floor(Math.random()*lucky_c.length)]
+
+                document.getElementById("ranking").innerHTML = answer;
+                document.getElementById("result").innerHTML = s + "の" + name + "さんの今日の順位は" + ran +"位！";
+                document.getElementById("luckycolor").innerHTML = "ラッキーカラーは"+ y +"色！";
+                document.getElementById("startButton").style.display = "none";
+                document.getElementById("ran-zen").innerHTML = "全体の順位";
+
+                
+                if(y == "赤"){
+                    document.getElementById("luckycolor").style.color = 'red';
+                }
+                else if(y == "青"){
+                    document.getElementById("luckycolor").style.color = 'blue';
+                }
+                else if(y == "黄"){
+                    document.getElementById("luckycolor").style.color = 'yellow';
+                }
+                else{
+                    document.getElementById("luckycolor").style.color = 'green';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
